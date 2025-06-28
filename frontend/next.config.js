@@ -6,10 +6,12 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `${apiUrl}/:path*`, // no /api here since backend doesn't use it
+        destination: `${apiUrl}/:path*`,
       },
     ];
   },
+  // Ensure proper output
+  output: 'standalone',
 };
 
 module.exports = nextConfig;
