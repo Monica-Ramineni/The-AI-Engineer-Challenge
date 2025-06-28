@@ -10,10 +10,6 @@
     {
       "src": "/api/(.*)",
       "dest": "https://ai-chat-backend-p1cq.onrender.com/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
     }
   ]
 } 
