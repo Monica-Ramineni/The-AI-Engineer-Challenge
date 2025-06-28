@@ -1,7 +1,7 @@
 // Configuration for API endpoints
 export const config = {
-  // Use environment variable for API URL, fallback to localhost for development
-  apiBaseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+  // Use environment variable for API URL, fallback to local API endpoint
+  apiBaseUrl: process.env.NEXT_PUBLIC_API_URL || '',
   
   // API endpoints
   endpoints: {
