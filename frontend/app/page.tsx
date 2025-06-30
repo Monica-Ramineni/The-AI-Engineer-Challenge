@@ -6,6 +6,39 @@ import { Send, Settings, Bot, User, Key, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { getApiUrl } from '@/lib/config'
 
+// Function to strip markdown and LaTeX notation
+function stripMarkdownAndLatex(text: string): string {
+  return text
+    // Remove markdown code blocks
+    .replace(/```[\s\S]*?```/g, '')
+    // Remove inline code
+    .replace(/`([^`]+)`/g, '$1')
+    // Remove markdown headers
+    .replace(/^#{1,6}\s+/gm, '')
+    // Remove markdown bold
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/__([^_]+)__/g, '$1')
+    // Remove markdown italic
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/_([^_]+)_/g, '$1')
+    // Remove markdown links
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    // Remove markdown lists
+    .replace(/^[\s]*[-*+]\s+/gm, '')
+    .replace(/^[\s]*\d+\.\s+/gm, '')
+    // Remove LaTeX math blocks
+    .replace(/\$\$[\s\S]*?\$\$/g, '')
+    // Remove inline LaTeX math
+    .replace(/\$([^$]+)\$/g, '$1')
+    // Remove LaTeX commands
+    .replace(/\\[a-zA-Z]+(\{[^}]*\})?/g, '')
+    // Remove LaTeX environments
+    .replace(/\\begin\{[^}]*\}[\s\S]*?\\end\{[^}]*\}/g, '')
+    // Clean up extra whitespace
+    .replace(/\n\s*\n/g, '\n\n')
+    .trim()
+}
+
 interface Message {
   id: string
   content: string
@@ -239,7 +272,9 @@ export default function ChatPage() {
                         )}
                       </div>
                       <div className="flex-1">
-                        <p className="whitespace-pre-wrap">{message.content}</p>
+                        <p className="whitespace-pre-wrap">
+                          {message.role === 'ai' ? stripMarkdownAndLatex(message.content) : message.content}
+                        </p>
                         <p className="text-xs opacity-70 mt-2">
                           {message.timestamp.toLocaleTimeString()}
                         </p>
